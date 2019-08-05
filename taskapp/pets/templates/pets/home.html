@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% load leaflet_tags %}
+{% leaflet_css %}
+{% leaflet_js %}
+
+{% leaflet_map "main" callback="map_init" %}
+<div class="jumbotron">
+    <h2 class="display-6">Pet List</h2>
+    <p>{{ text }}</p>
+    {% for pet in pets %}
+    <p>{{pet.name}} | {{pet.address}} | {{pet.city}}</p>
+    {% endfor %}
+</div>
+
+<script type="text/javascript">
+    var map = L.map('map');
+    function map_init(map, options) {
+        {% for pet in pets %}
+            var petIcon = L.icon({
+            iconUrl: 'http://127.0.0.1:8000/media/{{pet.pet_image}}',
+            iconSize: [40, 40],
+            iconAnchor: [22, 94],
+            popupAnchor: [-3, -76]
+        });
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            }).addTo(map);
+            L.marker([{{pet.location.y}}, {{pet.location.x}}], {icon: petIcon}).addTo(map)
+                .bindPopup('{{pet.name}}.<br> {{pet.city}}.').openPopup();
+        {% endfor %}
+    }
+</script>
+{% endblock %}

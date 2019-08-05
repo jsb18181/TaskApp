@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="jumbotron">
+    <h2 class="display-6">Add Pets</h2>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Submit</button>
+        {% load leaflet_tags %}
+
+        <head>
+            {% leaflet_js plugins="forms" %}
+            {% leaflet_css plugins="forms" %}
+        </head>
+    </form>
+</div>
+{% endblock %}
