@@ -57,5 +57,9 @@ You should now be able to run the server and start using the app, use the follow
 
 $ python manage.py runserver
 
+You should then be able to access the application in your browser at http://localhost:8000/.
+
+
+
 
 
